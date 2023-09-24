@@ -73,7 +73,6 @@ extern "C" int solveAndShow(int month, int day) {
   SDL_RenderPresent(renderer);
 
   // SDL_Quit();
-  std::cin.ignore(1, '\n');
   return 0;
 }
 
@@ -96,5 +95,10 @@ int main(int argc, char* argv[]) {
   }
 
   // Solve
-  return solveAndShow(month - 1, day - 1);  //< Arguments are zero based
+  const auto ret_value =
+      solveAndShow(month - 1, day - 1);  //< Arguments are zero based
+
+  // Wait and exit
+  std::cin.ignore(1, '\n');
+  return ret_value;
 }
