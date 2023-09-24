@@ -1,24 +1,29 @@
 #ifndef PIECE_LIST_2023_09_10_
 #define PIECE_LIST_2023_09_10_
 
-#include "Piece.h"
 #include <vector>
 
-class PieceList
-{
-public: // Constructor
+#include "Piece.h"
+
+/*
+ * Container of every available piece used to cover the board.
+ * We can extract one piece to check if we can put it on the board.
+ * We can add one piece to the list of available pieces if we failed to use it.
+ */
+class PieceList {
+ public:  // Constructor
   PieceList() {
-    m_free.push_back(Piece{ 1, 0b1100'1100'1100'0000 });
-    m_free.push_back(Piece{ 2, 0b1000'1100'1100'0000 });
-    m_free.push_back(Piece{ 3, 0b0010'1111'0000'0000 });
-    m_free.push_back(Piece{ 4, 0b0011'1110'0000'0000 });
-    m_free.push_back(Piece{ 5, 0b1100'1000'1100'0000 });
-    m_free.push_back(Piece{ 6, 0b0110'0100'1100'0000 });
-    m_free.push_back(Piece{ 7, 0b1000'1000'1000'1100 });
-    m_free.push_back(Piece{ 8, 0b1000'1000'1110'0000 });
+    m_free.push_back(Piece{1, 0b1100'1100'1100'0000});
+    m_free.push_back(Piece{2, 0b1000'1100'1100'0000});
+    m_free.push_back(Piece{3, 0b0010'1111'0000'0000});
+    m_free.push_back(Piece{4, 0b0011'1110'0000'0000});
+    m_free.push_back(Piece{5, 0b1100'1000'1100'0000});
+    m_free.push_back(Piece{6, 0b0110'0100'1100'0000});
+    m_free.push_back(Piece{7, 0b1000'1000'1000'1100});
+    m_free.push_back(Piece{8, 0b1000'1000'1110'0000});
   }
 
-public: // Operations
+ public:  // Operations
   Piece extract(size_t index) {
     const auto piece = m_free[index];
     m_free.erase(m_free.begin() + index);
@@ -32,9 +37,9 @@ public: // Operations
   bool empty() const { return m_free.empty(); }
   size_t size() const { return m_free.size(); }
 
-private:
+ private:
   std::vector<Piece> m_free;
   std::vector<Piece> m_used;
 };
 
-#endif // PIECE_LIST_2023_09_10_
+#endif  // PIECE_LIST_2023_09_10_

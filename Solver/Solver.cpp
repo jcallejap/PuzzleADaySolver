@@ -8,40 +8,36 @@
 #include "BoardsStack.h"
 #include "PieceList.h"
 
+/*
+ * Recursive method.
+ * First, it tries to fill the next free square using every piece available.
+ * On success, it call himself to fill the remaining squares.
+ * On failure, it returns false.
+ * @return true if
+ */
 static bool solveWithPieces(BoardsStack& board, PieceList& pieces) {
   const auto [row, col] = board.firstNonMarked();
   const auto num_rem_pieces = pieces.size();
+  // Check every free piece with every possible rotation and translation
   for (size_t piece_index = 0; piece_index < num_rem_pieces; ++piece_index) {
     const auto piece = pieces.extract(piece_index);
     for (int row_inc = 0; row_inc < 4; ++row_inc) {
       for (int col_inc = 0; col_inc < 4; ++col_inc) {
-        for (int rot = 0; rot < 4; ++rot) {
-          const auto try_piece_true =
-              piece.getTable(row - row_inc, col - col_inc, rot, true);
-          if (try_piece_true && try_piece_true->isMarked(row, col) &&
-              board.isCompatible(*try_piece_true)) {
-            board.pushBoard(*try_piece_true);
-            if (num_rem_pieces == 1) {
-              return true;
-            }
-            if (solveWithPieces(board, pieces)) {
-              return true;
-            } else {
-              board.popBoard();
-            }
-          }
-          const auto try_piece_false =
-              piece.getTable(row - row_inc, col - col_inc, rot, false);
-          if (try_piece_false && try_piece_false->isMarked(row, col) &&
-              board.isCompatible(*try_piece_false)) {
-            board.pushBoard(*try_piece_false);
-            if (num_rem_pieces == 1) {
-              return true;
-            }
-            if (solveWithPieces(board, pieces)) {
-              return true;
-            } else {
-              board.popBoard();
+        for (auto rot : Piece::RotationIterator{}) {
+          for (auto mirror : Piece::MirrorIterator{}) {
+            const auto try_piece =
+                piece.getTable(row - row_inc, col - col_inc, rot, mirror);
+            if (try_piece && try_piece->isMarked(row, col) &&
+                board.isCompatible(*try_piece)) {
+              board.pushBoard(*try_piece);
+              if (pieces.empty()) {
+                return true;
+              }
+              if (solveWithPieces(board, pieces)) {
+                return true;
+              } else {
+                board.popBoard();
+              }
             }
           }
         }
@@ -60,17 +56,27 @@ bool solve(BoardsStack& board) {
 
 void testPrintPiece() {
   Piece p{0, 0b1000'1100'1100'0000};
-  std::cout << *p.getTable(0, 0, 0, true) << std::endl;
-  std::cout << *p.getTable(0, 0, 1, true) << std::endl;
-  std::cout << *p.getTable(0, 0, 2, true) << std::endl;
-  std::cout << *p.getTable(0, 0, 3, true) << std::endl;
+  std::cout << *p.getTable(0, 0, Piece::Rotation::Rot_0,
+                           Piece::Mirror::Mirrored)
+            << std::endl;
+  std::cout << *p.getTable(0, 0, Piece::Rotation::Rot_90,
+                           Piece::Mirror::Mirrored)
+            << std::endl;
+  std::cout << *p.getTable(0, 0, Piece::Rotation::Rot_180,
+                           Piece::Mirror::Mirrored)
+            << std::endl;
+  std::cout << *p.getTable(0, 0, Piece::Rotation::Rot_270,
+                           Piece::Mirror::Mirrored)
+            << std::endl;
 }
 
 void printPieces() {
   PieceList pieces;
   const auto num_rem_pieces = pieces.size();
   for (size_t piece_index = 0; piece_index < num_rem_pieces; ++piece_index) {
-    std::cout << *pieces.extract(0).getTable(0, 0, 0, false) << std::endl;
+    std::cout << *pieces.extract(0).getTable(0, 0, Piece::Rotation::Rot_0,
+                                             Piece::Mirror::Normal)
+              << std::endl;
   }
   std::cin.peek();
 }
