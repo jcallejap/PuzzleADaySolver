@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+
 #include <iostream>
 
 #include "../Solver/Solver.h"
@@ -20,7 +21,7 @@ void renderBoard(const BoardsStack& board, int width, int height,
                  SDL_Renderer* renderer) {
   const auto square_size = std::min(width, height) / 7;
   const auto square_hor_left = std::max(0, (width - square_size * 7) / 2);
-  
+
   // Render squares
   for (int row = 0; row < 7; row++) {
     for (int col = 0; col < 7; col++) {
@@ -55,7 +56,6 @@ extern "C" int solveAndShow(int month, int day) {
 
   // Prepare SDL2
   SDL_Init(SDL_INIT_VIDEO);
-  TTF_Init();
 
   // Create SDL2 renderer
   SDL_Window* window;
@@ -73,6 +73,7 @@ extern "C" int solveAndShow(int month, int day) {
   SDL_RenderPresent(renderer);
 
   // SDL_Quit();
+  std::cin.ignore(1, '\n');
   return 0;
 }
 
