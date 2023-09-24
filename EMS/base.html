@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Puzzle solver by jcallejap</title>
+    <style>
+        body {
+            font-family: arial;
+            margin: 0;
+            padding: none;
+        }
+
+        .emscripten {
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        div.emscripten {
+            text-align: center;
+        }
+
+        div.emscripten_border {
+            border: 1px solid black;
+        }
+        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+        canvas.emscripten {
+            border: 0px none;
+            background-color: black;
+            width: 80%;
+        }
+
+        #progress {
+            height: 20px;
+            width: 300px;
+        }
+
+        #controls {
+            display: inline-block;
+            float: right;
+            vertical-align: top;
+            margin-top: 30px;
+            margin-right: 20px;
+        }
+
+        #output {
+            width: 100%;
+            height: 100px;
+            margin: 0 auto;
+            margin-top: 10px;
+            border-left: 0px;
+            border-right: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            display: block;
+            background-color: black;
+            color: white;
+            font-family: 'Lucida Console', Monaco, monospace;
+            outline: none;
+        }
+        #combo_row {
+            border: 1px solid black;
+            height: 45px;
+            justify-content: center;
+        }
+        #combo_row select {
+            width: 49%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <script type='text/javascript'>
+        function recalculate() {
+            mm = document.getElementById("month").value;
+            dd = document.getElementById("day").value;
+            Module.ccall('solveAndShow', 'number', ['number', 'number'], [mm, dd]);
+        }
+    </script>
+    <p>Seleccione la fecha:</p>
+    <div id="combo_row" class="center">
+        <select name="day" id="day" onchange="recalculate()">
+            <option value="0" selected>1</option>
+            <option value="1">2</option>
+            <option value="2">3</option>
+            <option value="3">4</option>
+            <option value="4">5</option>
+            <option value="5">6</option>
+            <option value="6">7</option>
+            <option value="7">8</option>
+            <option value="8">9</option>
+            <option value="9">10</option>
+            <option value="10">11</option>
+            <option value="11">12</option>
+            <option value="12">13</option>
+            <option value="13">14</option>
+            <option value="14">15</option>
+            <option value="15">16</option>
+            <option value="16">17</option>
+            <option value="17">18</option>
+            <option value="18">19</option>
+            <option value="19">20</option>
+            <option value="20">21</option>
+            <option value="21">22</option>
+            <option value="22">23</option>
+            <option value="23">24</option>
+            <option value="24">25</option>
+            <option value="25">26</option>
+            <option value="26">27</option>
+            <option value="27">28</option>
+            <option value="28">29</option>
+            <option value="29">30</option>
+            <option value="30">31</option>
+
+        </select>
+        <select name="month" id="month" onchange="recalculate()">
+            <option value="0" selected>Enero</option>
+            <option value="1">Febrero</option>
+            <option value="2">Marzo</option>
+            <option value="3">Abril</option>
+            <option value="4">Mayo</option>
+            <option value="5">Junio</option>
+            <option value="6">Julio</option>
+            <option value="7">Agosto</option>
+            <option value="8">Septiembre</option>
+            <option value="9">Octubre</option>
+            <option value="10">Noviembre</option>
+            <option value="11">Diciembre</option>
+        </select>
+    </div>
+    <p>Solución:</p>
+    <div class="emscripten_border">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+    </div>
+
+
+    <script type='text/javascript'>
+        var Module = {
+            preRun: [],
+            postRun: [],
+            canvas: (function () {
+                var canvas = document.getElementById('canvas');
+
+                // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+                // application robust, you may want to override this behavior before shipping!
+                // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+                canvas.addEventListener("webglcontextlost", function (e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
+                return canvas;
+            })()
+        };
+    </script>
+    {{{ SCRIPT }}}
+</body>
+</html>
+
+
