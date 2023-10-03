@@ -23,14 +23,14 @@ class Piece {
   }
 
  public:  // Piece rotation management
-  enum class Rotation : int { Rot_0, Rot_90, Rot_180, Rot_270, RotationLast };
+  enum class Rotation : int { Rot_0, Rot_90, Rot_180, Rot_270 };
   using RotationIterator =
-      EnumClassIterator<Rotation, Rotation::Rot_0, Rotation::RotationLast>;
+      EnumClassIterator<Rotation, Rotation::Rot_0, Rotation::Rot_270>;
 
  public:  // Mirroring management
-  enum class Mirror : int { Normal, Mirrored, MirrorLast };
+  enum class Mirror : int { Normal, Mirrored };
   using MirrorIterator =
-      EnumClassIterator<Mirror, Mirror::Normal, Mirror::MirrorLast>;
+      EnumClassIterator<Mirror, Mirror::Normal, Mirror::Mirrored>;
 
  public:
   // Convert this piece to a board,

@@ -8,6 +8,7 @@
  */
 
 #include <type_traits>
+
 template <typename TYPE, TYPE begin_val, TYPE end_val>
 class EnumClassIterator {
   typedef typename std::underlying_type<TYPE>::type value_type;
@@ -21,8 +22,10 @@ class EnumClassIterator {
     return *this;
   }
   TYPE operator*() { return static_cast<TYPE>(m_value); }
-  EnumClassIterator begin() { return {begin_val}; }  // default ctor is good
-  EnumClassIterator end() { return {end_val}; }
+  EnumClassIterator begin() { return {begin_val}; }
+  EnumClassIterator end() {
+    return {static_cast<TYPE>(static_cast<value_type>(end_val) + 1)};
+  }
   bool operator!=(const EnumClassIterator& other) {
     return m_value != other.m_value;
   }
