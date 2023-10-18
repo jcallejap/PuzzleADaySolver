@@ -12,6 +12,8 @@
 template <typename TYPE, TYPE begin_val, TYPE end_val>
 class EnumClassIterator {
   typedef typename std::underlying_type<TYPE>::type value_type;
+  static_assert(std::is_integral<value_type>::value);
+  static_assert(static_cast<value_type>(end_val) < std::numeric_limits<value_type>::max());
 
  public:
   EnumClassIterator(const TYPE& value)
