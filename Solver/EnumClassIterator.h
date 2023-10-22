@@ -8,6 +8,7 @@
  */
 
 #include <type_traits>
+#include <limits>
 
 template <typename TYPE, TYPE begin_val, TYPE end_val>
 class EnumClassIterator {
