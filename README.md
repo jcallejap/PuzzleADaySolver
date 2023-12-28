@@ -67,7 +67,6 @@ Permite mover las piezas de una a otra lista según avanzamos en la solución.
 
 Representa un tablero 7x7 en el que las casillas pueden estar libres o usadas.
 
-
 ## class BoardsStack
 
 Representa una pila de tableros que se colocan uno encima del otro.
@@ -77,11 +76,10 @@ Este objeto es el que permite añadir y quitar piezas sobre el tablero.
 Las piezas se pueden convertir en un objeto de tipo ```Board``` y añadir a esta pila marcando así sus casillas como ocupadas.
 Aquí también podemos comprobar si una pieza es compatible y cuál es la siguiente casilla libre.
 
-## Solve
+## solve
 
 Esta es la función de entrada para resolver el problema. 
 Básicamente, crea un objeto de tipo ```PieceList``` y llama a la función ```solveWithPieces```.
-
 
 ## solveWithPieces
 
@@ -99,7 +97,6 @@ En cada paso de estos bucles, comprueba si la pieza resultante puede ocupar la c
 Si es así, marca la pieza como usada y se llama recursivamente para decidir la siguiente pieza.
 
 Si no consigue encontrar una pieza válida, devuelve false para indicar que no se puede encontrar una solución.
-
 
 ## main
 
